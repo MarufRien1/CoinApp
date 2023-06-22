@@ -1,6 +1,7 @@
 package bd.maruf.coinapp.feature_coin.data.remote.dto
 
 
+import bd.maruf.coinapp.feature_coin.domain.model.Coin
 import com.google.gson.annotations.SerializedName
 
 data class CoinDto(
@@ -17,5 +18,13 @@ data class CoinDto(
     @SerializedName("symbol")
     val symbol: String,
     @SerializedName("type")
-    val type: String
+    val type: String,
+)
+
+fun CoinDto.toCoin() = Coin(
+    id = id,
+    isActive = isActive,
+    name = name,
+    rank = rank,
+    symbol = symbol
 )
