@@ -3,13 +3,21 @@ package bd.maruf.coinapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import bd.maruf.coinapp.ui.theme.CoinAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +30,26 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "coin_list_screen") {
+
+                        composable(
+                            route = "coin_list_screen"
+                        ) {
+                            CoinListScreen(navController)
+
+                        }
+
+                        composable(
+                            route = "coin_detail_screen"
+                        ) {
+                            CoinDetailScreen()
+
+                        }
+
+                    }
                 }
             }
         }
@@ -30,17 +57,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun CoinListScreen(navController: NavHostController) {
+    Column() {
+        Text(text = "This is the coin list screen")
+
+        Button(onClick = { navController.navigate("coin_detail_screen") }) {
+            Text(text = "Go to coin detail screen")
+        }
+
+    }
+
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    CoinAppTheme {
-        Greeting("Android")
-    }
+fun CoinDetailScreen() {
+    Text(text = "This is the coin Detail screen")
+
 }
+
