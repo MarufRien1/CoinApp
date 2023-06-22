@@ -1,8 +1,8 @@
 package bd.maruf.coinapp.feature_coin.domain.use_case
 
 import bd.maruf.coinapp.core.Resource
-import bd.maruf.coinapp.feature_coin.data.remote.dto.toCoin
-import bd.maruf.coinapp.feature_coin.domain.model.Coin
+import bd.maruf.coinapp.feature_coin.data.remote.dto.toCoinDetail
+import bd.maruf.coinapp.feature_coin.domain.model.CoinDetail
 import bd.maruf.coinapp.feature_coin.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,15 +10,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetCoinListUseCase @Inject constructor(private val repository: CoinRepository) {
-    operator fun invoke(): Flow<Resource<List<Coin>>> = flow {
+class GetCoinDetailUseCase @Inject constructor(private val repository: CoinRepository) {
+    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> = flow {
 
         try {
             emit(Resource.Loading())
 
-            val coins = repository.getCoinList().map { it.toCoin() }
-            emit(Resource.Success(coins))
-
+            val coin = repository.getCoinDetail(coinId).toCoinDetail()
+            emit(Resource.Success(coin))
 
 
         } catch (e: IOException) {
